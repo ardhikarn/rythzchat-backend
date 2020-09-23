@@ -7,14 +7,24 @@ const socket = require("socket.io");
 
 const app = express();
 app.use(cors());
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// middleware
+app.use(bodyParser.json()); // untuk row
+app.use(bodyParser.urlencoded({ extended: false })); // untuk urlencoded
 app.use(morgan("dev"));
+app.use((request, response, next) => {
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Request-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
 
 app.use("/", routerNavigation);
 
+// untuk socket.io
 const http = require("http");
+const { response } = require("express");
 const server = http.createServer(app); //menyimpan data dari http
 const io = socket(server);
 
@@ -59,6 +69,16 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log("Listening on Port 3000");
+app.get("*", (request, response) => {
+  response.status(404).send("Path Not Found");
+});
+
+// server.listen(3000, () => {
+//   console.log("Listening on Port 3000");
+// });
+
+app.listen(process.env.PORT, process.env.IP, () => {
+  console.log(
+    `App is Running on IP: ${process.env.IP} and PORT: ${process.env.PORT}`
+  );
 });
