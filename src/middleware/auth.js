@@ -13,6 +13,7 @@ module.exports = {
         ) {
           return helper.response(response, 400, error.message);
         } else {
+          request.token = result;
           next();
         }
       });

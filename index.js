@@ -12,6 +12,7 @@ app.use(cors());
 app.use(bodyParser.json()); // untuk row
 app.use(bodyParser.urlencoded({ extended: false })); // untuk urlencoded
 app.use(morgan("dev"));
+app.use(express.static("uploads"));
 app.use((request, response, next) => {
   response.header("Access-Control-Allow-Origin", "*");
   response.header(
@@ -24,16 +25,16 @@ app.use((request, response, next) => {
 app.use("/", routerNavigation);
 
 // untuk socket.io
-// const http = require("http");
+const http = require("http");
 // const { response } = require("express");
-// const server = http.createServer(app); //menyimpan data dari http
-// const io = socket(server);
+const server = http.createServer(app); //menyimpan data dari http
+const io = socket(server);
 
-// io.on("connection", (socket) => {
-//   console.log("Socket.io is Connected");
-//   socket.on("globalMessage", (data) => {
-//     io.emit("chatMsg", data); //Global Message memakai io.emit
-//   });
+io.on("connection", (socket) => {
+  console.log("Socket.io is Connected");
+  //   socket.on("globalMessage", (data) => {
+  //     io.emit("chatMsg", data); //Global Message memakai io.emit
+});
 
 //   socket.on("privateMessage", (data) => {
 //     socket.emit("chatMsg", data); //Private Message memakai socket.emit
@@ -78,8 +79,6 @@ app.get("*", (request, response) => {
   response.status(404).send("Path Not Found");
 });
 
-app.listen(process.env.PORT, process.env.IP, () => {
-  console.log(
-    `App is Running on IP: ${process.env.IP} and PORT: ${process.env.PORT}`
-  );
+server.listen(process.env.PORT, () => {
+  console.log(`App is Running on PORT: ${process.env.PORT}`);
 });
