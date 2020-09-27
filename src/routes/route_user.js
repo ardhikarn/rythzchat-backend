@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {
   registerUser,
   getUserById,
+  getUserByEmail,
   loginUser,
   sendEmailActivation,
   activationAccount,
@@ -14,14 +15,15 @@ const {
 const uploadFilter = require("../middleware/multer");
 
 router.get("/id/:id", getUserById);
+router.get("/search/:email", getUserByEmail);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/send-email-activation", sendEmailActivation);
-router.post("/forgot-password", sendEmailForgotPassword);
 router.patch("/activation-account", activationAccount);
+router.post("/forgot-password", sendEmailForgotPassword);
 router.patch("/change-password", changePassword);
+router.patch("/profile/:id", patchUser);
 router.patch("/image/:id", uploadFilter, patchImageUser);
-router.patch("/:id", patchUser);
 router.patch("/maps/:id", patchMaps);
 
 module.exports = router;

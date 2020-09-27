@@ -2,7 +2,7 @@ const {
   getFriendById,
   postFriend,
   deleteFriend,
-} = require("../models/model_friendlist");
+} = require("../models/model_friend");
 const helper = require("../helper/helper");
 const { request } = require("express");
 const { response } = require("../helper/helper");
@@ -12,8 +12,8 @@ module.exports = {
     try {
       const { id } = request.params;
       let { search } = request.query;
-      if (keyword === undefined) {
-        keyword = "";
+      if (search === undefined) {
+        search = "";
       }
       const result = await getFriendById(id, search);
       return helper.response(response, 200, "get Friend Success", result);
@@ -27,7 +27,7 @@ module.exports = {
       const addData = {
         user_id,
         friend_id,
-        friendlist_created_at,
+        friendlist_created_at: new Date(),
       };
       const result = await postFriend(addData);
       return helper.response(response, 200, "Add Friend Success", result);

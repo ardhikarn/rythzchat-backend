@@ -1,10 +1,12 @@
 const route = require("express").Router();
 
 const routeUser = require("./routes/route_user");
-const routeFriendlist = require("./routes/routes/route_friendlist");
+const routeFriend = require("./routes/route_friend");
+const routeRoom = require("./routes/route_room");
 
 // middleware
 route.use("/user", routeUser);
-route.use("/friendlist", routeFriendlist);
+route.use("/friend", routeFriend);
+route.use("/room", routeRoom);
 
 module.exports = route;

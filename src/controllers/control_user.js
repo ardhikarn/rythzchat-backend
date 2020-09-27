@@ -22,6 +22,22 @@ module.exports = {
       return helper.response(response, 400, "Bad Request");
     }
   },
+  getUserByEmail: async (request, response) => {
+    try {
+      const { email } = req.params;
+      const result = await checkUser(email);
+      if (result.length >= 1) {
+        delete result[0].user_password;
+        delete result[0].user_key;
+        delete result[0].user_status;
+        delete result[0].user_created_at;
+        delete result[0].user_updated_at;
+      }
+      return helper.response(res, 200, "Get User by Email Success", result);
+    } catch (err) {
+      return helper.response(res, 400, "Bad Request");
+    }
+  },
   registerUser: async (request, response) => {
     const { user_name, user_email, user_password } = request.body;
     const salt = bcrypt.genSaltSync(10);

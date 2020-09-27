@@ -3,7 +3,7 @@ const {
   getFriendById,
   addFriend,
   deleteFriend,
-} = require("../controllers/control_friendlist");
+} = require("../controllers/control_friend");
 
 router.get("/id/:id", getFriendById);
 router.post("/add", addFriend);

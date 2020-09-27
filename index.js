@@ -26,7 +26,6 @@ app.use("/", routerNavigation);
 
 // untuk socket.io
 const http = require("http");
-// const { response } = require("express");
 const server = http.createServer(app); //menyimpan data dari http
 const io = socket(server);
 
