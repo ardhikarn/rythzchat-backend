@@ -24,7 +24,7 @@ module.exports = {
   },
   getUserByEmail: async (request, response) => {
     try {
-      const { email } = req.params;
+      const { email } = request.params;
       const result = await checkUser(email);
       if (result.length >= 1) {
         delete result[0].user_password;
@@ -33,9 +33,14 @@ module.exports = {
         delete result[0].user_created_at;
         delete result[0].user_updated_at;
       }
-      return helper.response(res, 200, "Get User by Email Success", result);
-    } catch (err) {
-      return helper.response(res, 400, "Bad Request");
+      return helper.response(
+        response,
+        200,
+        "Get User by Email Success",
+        result
+      );
+    } catch (error) {
+      return helper.response(response, 400, "Bad Request");
     }
   },
   registerUser: async (request, response) => {

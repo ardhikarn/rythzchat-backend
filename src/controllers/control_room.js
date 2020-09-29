@@ -8,17 +8,16 @@ const {
 module.exports = {
   createRoom: async (request, response) => {
     try {
-      const { user_id, friend_id } = request.body;
       const roomId = Math.round(Math.random() * 1000000);
       const addData = {
         room_id: roomId,
-        user_id,
+        user_id: request.body.user_id,
         room_created_at: new Date(),
       };
       await postRoom(addData);
       const addData2 = {
         room_id: roomId,
-        friend_id,
+        user_id: request.body.friend_id,
         room_created_at: new Date(),
       };
       await postRoom(addData2);
@@ -34,6 +33,7 @@ module.exports = {
       const roomIds = result.map((value) => {
         return value.room_id;
       });
+      console.log(roomIds);
       let newResult = [];
       for (let i = 0; i < roomIds.length; i++) {
         result2 = await getRoomByRoomId(roomIds[i]);

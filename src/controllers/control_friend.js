@@ -4,8 +4,6 @@ const {
   deleteFriend,
 } = require("../models/model_friend");
 const helper = require("../helper/helper");
-const { request } = require("express");
-const { response } = require("../helper/helper");
 
 module.exports = {
   getFriendById: async (request, response) => {
@@ -37,9 +35,9 @@ module.exports = {
   },
   deleteFriend: async (request, response) => {
     try {
-      const { userId, friendId } = request.query;
-      const result = await deleteFriend(userId, friendId);
-      return helper.response(response, 200, "Delete Friend Success", result);
+      const { user_id, friend_id } = request.query;
+      await deleteFriend(user_id, friend_id);
+      return helper.response(response, 200, "Delete Friend Success");
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
     }

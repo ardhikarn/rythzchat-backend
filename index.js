@@ -31,17 +31,18 @@ const io = socket(server);
 
 io.on("connection", (socket) => {
   console.log("Socket.io is Connected");
-  //   socket.on("globalMessage", (data) => {
-  //     io.emit("chatMsg", data); //Global Message memakai io.emit
+  socket.on("joinRoom", (data) => {
+    socket.join(data);
+  });
+
+  socket.on("roomChat", (data) => {
+    socket.broadcast.to(data.room).emit("chatMsg", data); //Private Message memakai socket.emit
+  });
 });
 
-//   socket.on("privateMessage", (data) => {
-//     socket.emit("chatMsg", data); //Private Message memakai socket.emit
-//   });
-
-//   socket.on("BroadcastMessage", (data) => {
-//     socket.broadcast.emit("chatMsg", data); //Broadcast Message memakai socket.broadcast.emit
-//   });
+// socket.on("BroadcastMessage", (data) => {
+//   socket.broadcast.emit("chatMsg", data); //Broadcast Message memakai socket.broadcast.emit
+// });
 
 //   socket.on("welcomeMsg", (data) => {
 //     socket.emit("chatMsg", {
@@ -70,14 +71,10 @@ io.on("connection", (socket) => {
 //   });
 // });
 
-// server.listen(3000, () => {
-//   console.log("Listening on Port 3000");
-// });
-
 app.get("*", (request, response) => {
   response.status(404).send("Path Not Found");
 });
 
 server.listen(process.env.PORT, () => {
-  console.log(`App is Running on PORT: ${process.env.PORT}`);
+  console.log(`Listening on PORT: ${process.env.PORT}`);
 });
