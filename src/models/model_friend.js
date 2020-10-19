@@ -4,7 +4,7 @@ module.exports = {
   getFriendById: (id, search) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT user.user_id, user.user_name, user.user_email, user.user_about, user.user_phone, user.user_image, user.user_lat, user.user_lng FROM friendlist JOIN user on friendlist.friend_id = user.user_id WHERE friendlist.user_id = ? AND user.user_email LIKE ? ORDER BY user.user_name ASC",
+        "SELECT user.user_id, user.user_name, user.user_email, user.user_about, user.user_phone, user.user_image, user.user_lat, user.user_lng FROM friendlist JOIN user on friendlist.friend_id = user.user_id WHERE friendlist.user_id = ? AND user.user_name LIKE ? ORDER BY user.user_name ASC",
         [id, `%${search}%`],
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
