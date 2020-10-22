@@ -27,8 +27,12 @@ module.exports = {
         message,
         message_created_at: new Date(),
       };
-      const result = await postMessage(setData);
-      return helper.response(response, 200, "Success Send Message", result);
+      await postMessage(setData);
+      const setDataRoom = {
+        room_updated_at: new Date(),
+      };
+      await patchRoom(setDataRoom, room_id);
+      return helper.response(response, 200, "Success Send Message");
     } catch (error) {
       return helper.response(response, 400, "Bad Request");
     }

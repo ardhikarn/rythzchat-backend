@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const {
   getFriendById,
-  addFriend,
+  postFriend,
   deleteFriend,
 } = require("../controllers/control_friend");
 
 router.get("/id/:id", getFriendById);
-router.post("/add", addFriend);
+router.post("/add", postFriend);
 router.delete("/delete", deleteFriend);
 
 module.exports = router;

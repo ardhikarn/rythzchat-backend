@@ -11,6 +11,7 @@ const {
   patchImageUser,
   patchUser,
   patchMaps,
+  patchActivity,
 } = require("../controllers/control_user");
 const uploadFilter = require("../middleware/multer");
 
@@ -25,5 +26,6 @@ router.patch("/change-password", changePassword);
 router.patch("/profile/:id", patchUser);
 router.patch("/image/:id", uploadFilter, patchImageUser);
 router.patch("/maps/:id", patchMaps);
+router.patch("/activity/:id", patchActivity);
 
 module.exports = router;

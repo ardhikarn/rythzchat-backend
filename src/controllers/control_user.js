@@ -52,7 +52,11 @@ module.exports = {
       user_email,
       user_password: encryptPass,
       user_image: "blank-profile-pic.png",
+      user_lat: "",
+      user_lng: "",
+      user_activity: 0,
       user_status: 0,
+      user_key: 0,
       user_created_at: new Date(),
     };
     try {
@@ -403,6 +407,19 @@ module.exports = {
       };
       const result = await patchUser(setData, id);
       return helper.response(response, 200, "Location Update", result);
+    } catch (error) {
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  patchActivity: async (request, response) => {
+    try {
+      const { id } = request.params;
+      const setData = {
+        user_activity: 0,
+        user_updated_at: new Date(),
+      };
+      const result = await patchUser(setData, id);
+      return helper.response(response, 200, "Status Activity Updated", result);
     } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
     }

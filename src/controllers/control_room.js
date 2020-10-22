@@ -3,6 +3,8 @@ const {
   getRoomByUserId,
   getRoomByRoomId,
   postRoom,
+  searchRoom,
+  getLastMessage,
 } = require("../models/model_room");
 
 module.exports = {
@@ -33,7 +35,6 @@ module.exports = {
       const roomIds = result.map((value) => {
         return value.room_id;
       });
-      console.log(roomIds);
       let newResult = [];
       for (let i = 0; i < roomIds.length; i++) {
         result2 = await getRoomByRoomId(roomIds[i]);
@@ -41,8 +42,32 @@ module.exports = {
           (value) => value.user_id !== parseInt(id)
         );
         newResult = newResult.concat(result3);
+        for (let i = 0; i < newResult.length; i++) {
+          newResult[i].recent = await getLastMessage(newResult[i].room_id);
+        }
       }
       return helper.response(response, 200, "Get Room Success", newResult);
+    } catch (error) {
+      return helper.response(response, 400, "Bad Request");
+    }
+  },
+  searchRoom: async (req, res) => {
+    try {
+      const { id, search } = req.query;
+      const result = await getRoomByUserId(id);
+      const roomIds = result.map((val) => {
+        return val.room_id;
+      });
+      let result4 = [];
+      for (let i = 0; i < roomIds.length; i++) {
+        result2 = await searchRoom(roomIds[i], search);
+        const result3 = result2.filter((val) => val.user_id !== parseInt(id));
+        result4 = result4.concat(result3);
+        for (let i = 0; i < result4.length; i++) {
+          result4[i].recent = await getLastMessage(result4[i].room_id);
+        }
+      }
+      return helper.response(response, 200, "Get Room Success", result4);
     } catch (error) {
       return helper.response(response, 400, "Bad Request");
     }

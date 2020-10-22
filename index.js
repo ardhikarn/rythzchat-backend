@@ -37,39 +37,22 @@ io.on("connection", (socket) => {
 
   socket.on("roomChat", (data) => {
     socket.broadcast.to(data.room).emit("chatMsg", data); //Private Message memakai socket.emit
+    socket.broadcast.emit("notify", data); // add notif
   });
+
+  socket.on("changeRoom", (data) => {
+    socket.leave(data.prevRoom);
+    socket.join(data.newRoom);
+  });
+
+  // socket.on("online", (data) => {
+  //   socket.broadcast.emit("setOnline", data);
+  // });
+
+  // socket.on("offline", (data) => {
+  //   socket.broadcast.emit("setOffline", data);
+  // });
 });
-
-// socket.on("BroadcastMessage", (data) => {
-//   socket.broadcast.emit("chatMsg", data); //Broadcast Message memakai socket.broadcast.emit
-// });
-
-//   socket.on("welcomeMsg", (data) => {
-//     socket.emit("chatMsg", {
-//       username: "BOT",
-//       message: `Welcome ${data.username}`,
-//     });
-//     // UNTUK GLOBAL
-//     // socket.broadcast.emit("chatMsg", {
-//     //   username: "BOT",
-//     //   message: `${data.username} Joined Groupchat`,
-//     // });
-//     // UNTUK SPESIFIK
-//     socket.broadcast.to(data.room).emit("chatMsg", {
-//       username: "BOT",
-//       message: `${data.username} Joined Groupchat`,
-//     });
-//     socket.join(data.room);
-//   });
-
-//   socket.on("typing", (data) => {
-//     socket.broadcast.emit("typingMsg", data);
-//   });
-
-//   socket.on("roomMsg", (data) => {
-//     io.to(data.room).emit("chatMsg", data);
-//   });
-// });
 
 app.get("*", (request, response) => {
   response.status(404).send("Path Not Found");

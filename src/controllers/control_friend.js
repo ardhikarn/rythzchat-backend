@@ -19,7 +19,7 @@ module.exports = {
       return helper.response(response, 400, "Bad Request", error);
     }
   },
-  addFriend: async (request, response) => {
+  postFriend: async (request, response) => {
     try {
       const { user_id, friend_id } = request.body;
       const addData = {
