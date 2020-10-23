@@ -4,7 +4,7 @@ module.exports = {
   getRoomByUserId: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT * FROM room WHERE user_id = ?",
+        "SELECT * FROM room WHERE user_id = ? ORDER BY room_updated_at DESC",
         id,
         (error, response) => {
           !error ? resolve(response) : reject(new Error(error));
@@ -48,6 +48,17 @@ module.exports = {
         [id, `%${search}%`],
         (err, res) => {
           !err ? resolve(res) : reject(new Error(err));
+        }
+      );
+    });
+  },
+  patchRoom: (setData, id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "UPDATE room SET ? WHERE room_id = ?",
+        [setData, id],
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
         }
       );
     });

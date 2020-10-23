@@ -51,9 +51,9 @@ module.exports = {
       return helper.response(response, 400, "Bad Request");
     }
   },
-  searchRoom: async (req, res) => {
+  searchRoom: async (request, response) => {
     try {
-      const { id, search } = req.query;
+      const { id, search } = request.query;
       const result = await getRoomByUserId(id);
       const roomIds = result.map((val) => {
         return val.room_id;

@@ -1,4 +1,5 @@
 const { getMessageByRoomId, postMessage } = require("../models/model_message");
+const { patchRoom } = require("../models/model_room");
 const helper = require("../helper/helper");
 
 module.exports = {
