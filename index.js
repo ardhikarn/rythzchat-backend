@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
     socket.join(data);
   });
 
-  socket.on("roomChat", (data) => {
+  socket.on("roomMsg", (data) => {
     socket.broadcast.to(data.room).emit("chatMsg", data); //Private Message memakai socket.emit
     socket.broadcast.emit("notify", data); // add notif
   });
@@ -45,13 +45,13 @@ io.on("connection", (socket) => {
     socket.join(data.newRoom);
   });
 
-  // socket.on("online", (data) => {
-  //   socket.broadcast.emit("setOnline", data);
-  // });
+  socket.on("online", (data) => {
+    socket.broadcast.emit("setOnline", data);
+  });
 
-  // socket.on("offline", (data) => {
-  //   socket.broadcast.emit("setOffline", data);
-  // });
+  socket.on("offline", (data) => {
+    socket.broadcast.emit("setOffline", data);
+  });
 });
 
 app.get("*", (request, response) => {
