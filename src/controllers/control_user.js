@@ -52,6 +52,8 @@ module.exports = {
       user_email,
       user_password: encryptPass,
       user_image: "blank-profile-pic.png",
+      user_phone: '',
+      user_about: '',
       user_lat: "",
       user_lng: "",
       user_activity: 0,
@@ -376,7 +378,6 @@ module.exports = {
           request.file == undefined
         ) {
           const result = await patchUser(setData, id);
-          console.log(result);
           return helper.response(response, 200, "Profile Updated", result);
         } else {
           fs.unlink(`./uploads/${checkUser[0].user_image}`, async (error) => {
@@ -392,7 +393,6 @@ module.exports = {
         return helper.response(response, 404, "User Not Found");
       }
     } catch (error) {
-      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -414,8 +414,9 @@ module.exports = {
   patchActivity: async (request, response) => {
     try {
       const { id } = request.params;
+      const { user_activity } = request.body;
       const setData = {
-        user_activity: 0,
+        user_activity,
         user_updated_at: new Date(),
       };
       const result = await patchUser(setData, id);
