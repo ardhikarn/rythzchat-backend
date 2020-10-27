@@ -33,7 +33,7 @@ Open .env file on your favorite code editor, and copy paste this code below :
 DB_HOST=localhost // Database host
 DB_USER=root // Database user
 DB_PASS= // Database password
-DB_DB= // Database name
+DB_NAME= // Database name
 PORT=3000 // PORT
 ```
 
